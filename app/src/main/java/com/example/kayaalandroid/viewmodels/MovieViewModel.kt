@@ -10,8 +10,15 @@ import kotlinx.coroutines.launch
 
 class MovieViewModel : ViewModel() {
     private val repository = MovieRepository()
+
     private val _movies = MutableStateFlow<List<Movie>>(emptyList())
     val movies: StateFlow<List<Movie>> get() = _movies
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> get() = _isLoading
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> get() = _errorMessage
 
     init {
         fetchMovies()
@@ -19,7 +26,15 @@ class MovieViewModel : ViewModel() {
 
     private fun fetchMovies() {
         viewModelScope.launch {
-            _movies.value = repository.getMovies()
+            _isLoading.value = true
+            _errorMessage.value = null
+            try {
+                _movies.value = repository.getMovies()
+            } catch (e: Exception) {
+                _errorMessage.value = e.message ?: "Bilinmeyen hata"
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 }
