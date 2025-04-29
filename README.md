@@ -1,6 +1,8 @@
 Описание проекта KayaalAndroid
 Этот проект реализует следующие функции:
 [Ekran Kaydı 2025-04-30 002408.zip](https://github.com/user-attachments/files/19966695/Ekran.Kaydi.2025-04-30.002408.zip)
+
+
 [Ekran Kaydı 2025-04-30 002531.zip](https://github.com/user-attachments/files/19966696/Ekran.Kaydi.2025-04-30.002531.zip)
 
 1. Список фильмов (Главный экран)
