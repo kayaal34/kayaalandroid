@@ -2,27 +2,27 @@ package com.example.kayaalandroid.ui
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Favorite
+
+sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
+    object Home : BottomNavItem("movie_list", Icons.Filled.Home, "films")
+    object Favorites : BottomNavItem("favorite", Icons.Filled.Favorite, "favorites")
+}
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
-    val screens = listOf(Screen.Movies, Screen.Profile) // ✅ Tanımlanan ekranları listeye ekledik
-    val navBackStackEntry = navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry.value?.destination?.route
-
-    NavigationBar(containerColor = Color.White) {
-        screens.forEach { screen ->
+    val items = listOf(BottomNavItem.Home, BottomNavItem.Favorites)
+    NavigationBar {
+        items.forEach { item ->
             NavigationBarItem(
-                icon = { Icon(imageVector = screen.icon, contentDescription = screen.title) },
-                label = { Text(screen.title) },
-                selected = currentRoute == screen.route,
-                onClick = {
-                    if (currentRoute != screen.route) {
-                        navController.navigate(screen.route)
-                    }
-                }
+                selected = false,
+                onClick = { navController.navigate(item.route) },
+                icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
+                label = { Text(item.label) }
             )
         }
     }
